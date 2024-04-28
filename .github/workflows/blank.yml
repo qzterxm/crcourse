@@ -1,0 +1,19 @@
+name: My Workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run Docker image
+        run: |
+          docker run -it my-image
+      - name: Print name
+        run: |
+          echo "Your name is:"
+          echo "First name: ${{ github.actor | split: ' ' | first }}"
+          echo "Last name: ${{ github.actor | split: ' ' | last }}"

@@ -1,19 +1,23 @@
-name: My Workflow
+name: Run Docker Container
+
 on:
   push:
     branches:
       - main
+
 jobs:
-  build:
+  run_docker:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Run Docker image
-        run: |
-          docker run -it my-image
-      - name: Print name
-        run: |
-          echo "Your name is:"
-          echo "First name: ${{ github.actor | split: ' ' | first }}"
-          echo "Last name: ${{ github.actor | split: ' ' | last }}"
+
+      - name: Set up Docker
+        uses: actions/setup-docker@v2
+
+      - name: Build Docker image
+        run: docker build -t myimage .
+
+      - name: Run Docker container
+        run: docker run myimage
